@@ -37,6 +37,10 @@ export default class Mario {
             if (ARROW_KEYS.includes(e.keyCode)) {
                 that.move(e.key);
             }
+            if (e.keyCode === 32) {
+                clearInterval(this.interval);
+                this.interval = false;
+            }
         }
     }
 
@@ -45,6 +49,12 @@ export default class Mario {
         if (!this.interval) {
             this.interval = setInterval(() => this.nextStop(), this.marioSpeed);
         }
+    }
+
+    increaseSpeed() {
+        this.marioSpeed -= 100;
+        clearInterval(this.interval);
+        this.interval = setInterval(() => this.nextStop(), this.marioSpeed);
     }
 
     nextStop () {
@@ -91,6 +101,7 @@ export default class Mario {
             this.poison.removePoison();
             this.poison.addPoison();
             this.mushroom.addMushroom();
+            this.increaseSpeed();
         }
         this.removeMario();
         this.appendMario(newX, newY);
