@@ -52,7 +52,7 @@ export default class Mario {
     }
 
     increaseSpeed() {
-        this.marioSpeed -= 100;
+        this.marioSpeed -= this.marioSpeed >= 500 ? 100 :50;
         clearInterval(this.interval);
         this.interval = setInterval(() => this.nextStop(), this.marioSpeed);
     }
@@ -99,7 +99,7 @@ export default class Mario {
         if (this.board.board[newX][newY] === 2) {
             this.mushroom.removeMushroom();
             this.poison.removePoison();
-            this.poison.addPoison();
+            this.poison.addPoison(this.xMario, this.yMario);
             this.mushroom.addMushroom();
             this.increaseSpeed();
         }

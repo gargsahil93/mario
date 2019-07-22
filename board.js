@@ -5,33 +5,8 @@ function getCellName(row, col) {
   return `${row}_${col}`
 }
 
-
-/**
- * Scaffolds a board at the given mountNode (DOM reference).
- * 
- * Table with a ID - row_col will be created like below
- * |-----|-----|-----|-----|-----|-----|-----|-----|
- * | 0_0 | 0_1 | 0_2 | ... |     |     |     |     |
- * |-----|-----|-----|-----|-----|-----|-----|-----|
- * | 1_0 | 1_1 | 1_2 | ... |     |     |     |     |
- * |-----|-----|-----|-----|-----|-----|-----|-----|
- * | 2_0 | 2_1 | 2_2 | ... |     |     |     |     |
- * |-----|-----|-----|-----|-----|-----|-----|-----|
- * | ... |     |     | ... |     |     |     |     |
- * |-----|-----|-----|-----|-----|-----|-----|-----|
- * |     |     |     | ... |     |     |     |     |
- * |-----|-----|-----|-----|-----|-----|-----|-----|
- * |     |     |     | ... |     |     |     |     |
- * |-----|-----|-----|-----|-----|-----|-----|-----|
- * |     |     |     | ... |     |     |     |     |
- * |-----|-----|-----|-----|-----|-----|-----|-----|
- * 
- * @param {DOM} mountNode
- * @param {number} cellSize
- */
 export default class Board {
   constructor(mountNode, cellSize = 60) {
-    // Please don't configure it to anything < 60
     if (cellSize < 60) {
       cellSize = 60;
     }
@@ -49,9 +24,6 @@ export default class Board {
     this.noOfRows = Math.floor(boardRect.height / this.cellSize)
   }
 
-  /**
-   * Will create the table
-   */
   create() {
     const grid = this.getGrid()
     this.mountNode.innerHTML = grid

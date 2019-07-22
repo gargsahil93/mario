@@ -1,7 +1,9 @@
+const BUFFER =2;
 export default class Poison {
-    constructor (board) {
+    constructor (board, initX, initY) {
+        this.poisonCells = [];
         this.initialize(board);
-        this.addPoison();
+        this.addPoison(initX, initY);
     }
 
     initialize (board) {
@@ -15,30 +17,26 @@ export default class Poison {
     appendPoison (x, y) {
         document.getElementById(`${x}_${y}`).appendChild(this.$poisonImg.cloneNode(true));
         this.board.board[x][y] = 3;
+        this.poisonCells.push({x:x, y:y});
     }
 
     removePoison () {
-        for (let i = 0; i< this.board.noOfRows; i++) {
-            for (let j=0; j< this.board.noOfCols; j++) {
-                if (this.board.board[i][j] === 3) {
-                    document.getElementById(`${i}_${j}`).firstChild.remove();
-                    this.board.board[i][j] = 0;
-                }
-            }
-        }
+        this.poisonCells.forEach((val)=>{
+            document.getElementById(`${val.x}_${val.y}`).firstChild.remove();
+            this.board.board[val.x][val.y] = 0;
+        });
+        this.poisonCells = [];
     }
 
-    addPoison () {
+    addPoison (xMario, yMario) {
         let x, y;
         for (let i = 0; i< this.board.noOfRows; i++) {
             do {
                 x = Math.floor(Math.random() * this.board.noOfRows);
                 y = Math.floor(Math.random() * this.board.noOfCols);
-            } while (this.board.board[x][y] === 1 || this.board.board[x][y] === 3 ||
-            (x-1 !== -1 && this.board.board[x-1][y] === 1) ||
-            (x+1 !== this.board.noOfRows && this.board.board[x+1][y] === 1) ||
-            (y-1 !== -1 && this.board.board[x][y-1] ===1) ||
-            (y+1 !== this.board.noOfCols && this.board.board[x][y+1] ===1));
+            } while (this.board.board[x][y] === 3 ||
+            (x === xMario && y >= yMario - BUFFER && y <= yMario + BUFFER) ||
+            (y === yMario && x >= xMario - BUFFER && x <= xMario + BUFFER));
 
             this.appendPoison(x, y);
         }
